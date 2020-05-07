@@ -1,0 +1,81 @@
+---
+title: "Homework 3"
+author: "Janelle Christensen, David Segan, Rich Viebrock"
+date: "5/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+# ------------
+# attach packages and read in csv
+# ------------
+
+library(tidyverse)
+library(janitor)
+library(stargazer)
+library(wesanderson)
+
+gas_df <- read_csv("Homework 3 Data.csv") %>% 
+  clean_names()
+
+```
+
+```{r}
+
+# -----------
+# graph high and low and aggregate
+# -----------
+
+gas_agg_df <- gas_df %>% 
+  mutate(q_agg_gallons = q_low_gallons + q_high_gallons) %>% 
+  pivot_longer(q_low_gallons:q_agg_gallons,
+               names_to = "consumer",
+               values_to = "quantity") %>% 
+  mutate(quantity = quantity/1000)
+
+ggplot(data = gas_agg_df, aes(x = quantity, y = price_dollars, color = consumer)) +
+  geom_point() +
+  theme_light() +
+  scale_color_manual(values = wes_palette("Darjeeling1")) +
+  labs(x = "Quantity (thousands of gallons)",
+       y = "Price ($)",
+       color = "Consumer")
+  
+
+```
+
+```{r}
+
+gas_low_df <- gas_agg_df %>% 
+  filter(consumer %in% c("q_low_gallons"))
+
+model_low <- lm(price_dollars ~ quantity, data = gas_low_df)
+
+gas_high_df <- gas_agg_df %>% 
+  filter(consumer %in% c("q_high_gallons"))
+
+model_high <- lm(price_dollars ~ quantity, data = gas_high_df)
+
+gas_tot_df <- gas_agg_df %>% 
+  filter(consumer %in% c("q_agg_gallons"))
+
+model_agg <- lm(price_dollars ~ quantity, data = gas_tot_df)
+
+
+q_3_agg <- ((3 - 15.0021) / -.0204) * 1000
+
+cons_benefit_3 <- (15.0021 - 3) * q_3_agg * .5
+
+prod_benefit_3 <-  3 * q_3_agg * .5
+
+q_3_agg_2 <- (3 - model_agg$intercept) / model_agg$quantity
+
+
+```
+
+Quantity at 
