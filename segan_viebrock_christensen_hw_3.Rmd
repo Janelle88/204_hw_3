@@ -78,4 +78,4 @@ q_3_agg_2 <- (3 - model_agg$intercept) / model_agg$quantity
 
 ```
 
-Quantity at 
+Quantity at $3.00/gallon is `q_3_agg`
