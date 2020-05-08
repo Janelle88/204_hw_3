@@ -25,6 +25,8 @@ gas_df <- read_csv("Homework 3 Data.csv") %>%
 
 ```
 
+#### 1.
+
 ```{r}
 
 # -----------
@@ -69,13 +71,40 @@ model_agg <- lm(price_dollars ~ quantity, data = gas_tot_df)
 
 q_3_agg <- ((3 - 15.0021) / -.0204) * 1000
 
+q_3_high <- ((3 - 15.8034) / -0.0273) * 1000
+
+q_3_low <- ((3 - 11.6855) / -0.0661) * 1000
+
 cons_benefit_3 <- (15.0021 - 3) * q_3_agg * .5
 
 prod_benefit_3 <-  3 * q_3_agg * .5
 
-q_3_agg_2 <- (3 - model_agg$intercept) / model_agg$quantity
+env_cost_local_3 <- 1.5 * q_3_agg
 
+env_cost_world_3 <- 0.5 * q_3_agg
 
 ```
 
-Quantity at 
+Aggregate quantity of gallons sold at 3.00/gallon is `r format(round(q_3_agg, 0), scientific=FALSE)`
+
+Consumer benefit at 3.00/gallon is $`r format(round(cons_benefit_3, 0), scientific=FALSE)`
+
+Producer benefit at 3.00/gallon is $`r format(round(prod_benefit_3, 0), scientific=FALSE)`
+
+The local environmental externality cost is $`r format(round(env_cost_local_3, 0), scientific=FALSE)`
+
+The environmental externality cost to the rest of the world is $`r format(round(env_cost_world_3, 0), scientific=FALSE)`
+
+#### 2. 
+
+```{r}
+
+high_benefit_3 <- (15.8034 - 3) * q_3_high * 0.5
+
+low_benefit_3 <- (11.6855 - 3) * q_3_low * 0.5
+
+```
+
+Benefit of high income consumers is approximately $`r format(round(high_benefit_3, 0), scientific=FALSE)`
+
+Benefit of low income consumers is approximately $`r format(round(low_benefit_3, 0), scientific=FALSE)`
