@@ -144,6 +144,9 @@ low_benefit_tax <- (11.6855 - p_tax_agg) * q_tax_low * 0.5
 
 # new price with tax times new quantity with tax
 #triangle area
+# --------------
+# I'M ACTUALLY NOT SURE ABOUT THIS ONE - HOW DOES TAX CHANGE IT?
+# --------------
 prod_benefit_tax <- p_tax_agg * q_tax_agg * .5
 
 # same environmental cost per gallon, new quantity
