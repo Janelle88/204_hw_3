@@ -37,8 +37,8 @@ gas_agg_df <- gas_df %>%
   mutate(q_agg_gallons = q_low_gallons + q_high_gallons) %>% 
   pivot_longer(q_low_gallons:q_agg_gallons,
                names_to = "consumer",
-               values_to = "quantity") %>% 
-  mutate(quantity = quantity/1000)
+               values_to = "quantity") %>% # pivot longer to get all curved on one graph
+  mutate(quantity = quantity/1000) # divided by 1000 to make graph more readable
 
 ggplot(data = gas_agg_df, aes(x = quantity, y = price_dollars, color = consumer)) +
   geom_point() +
@@ -68,17 +68,25 @@ gas_tot_df <- gas_agg_df %>%
 
 model_agg <- lm(price_dollars ~ quantity, data = gas_tot_df)
 
-
+# solving the aggregate curve using price of 3
+# times 1000 because quantity was divided by 1000 in the beginning
 q_3_agg <- ((3 - 14.5998) / -.019339) * 1000
 
+# solving the equation p = 15.8034 - 0.0273q using price of 3
+# times 1000 because quantity was divided by 1000 in the beginning
 q_3_high <- ((3 - 15.8034) / -0.0273) * 1000
 
+# solving the equation p = 11.6855 -.0661q using price of 3
+# times 1000 because quantity was divided by 1000 in the beginning
 q_3_low <- ((3 - 11.6855) / -0.0661) * 1000
 
+#tringle area from above the price at 3 to the aggregate 
 cons_benefit_3 <- (14.5998 - 3) * q_3_agg * .5
 
+#triangle area from price 3 at quantity
 prod_benefit_3 <-  3 * q_3_agg * .5
 
+# given cost per gallon at quantity
 env_cost_local_3 <- 1.5 * q_3_agg
 
 env_cost_world_3 <- 0.5 * q_3_agg
@@ -112,24 +120,38 @@ Benefit of low income consumers is approximately $`r format(round(low_benefit_3,
 #### 3.
 
 ```{r}
-
+# quantity of where the two lines are equal to each other
+# times 1000 because quantity was divided by 1000 in the beginning
 q_tax_agg <- ((14.5998 - 1) / (0.019339 + 0.005)) * 1000
 
+# quantity plugged into the equation 0.005q + 1
+# 0.005q was the original slope of the line, plus 1 for the $1/gallon
 p_tax_agg <- 551.1811 * .005 + 1
 
+# solving for p using p = 15.8034 - 0.0273Q
 q_tax_high <- ((p_tax_agg - 15.8034) / -0.0273)
 
+# solving for p using p = 11.8655 - 0.0661Q
 q_tax_low <- ((p_tax_agg - 11.6855) / -0.0661)
-  
+
+# y intercept of high minus tax
+#triangle area
 high_benefit_tax <- (15.8034 - p_tax_agg) * q_tax_high * 0.5
 
+# y intercept of low minus tas
+# triangle area
 low_benefit_tax <- (11.6855 - p_tax_agg) * q_tax_low * 0.5
 
-prod_benefit_tax <- 3 * q_tax_agg * .5
+# new price with tax times new quantity with tax
+#triangle area
+prod_benefit_tax <- p_tax_agg * q_tax_agg * .5
 
+# same environmental cost per gallon, new quantity
 env_cost_local_tax <- 1.5 * q_tax_agg
 
 env_cost_world_tax <- 0.5 * q_tax_agg
+
+# rectangle area from the increase in price from before to now that the tax exists
 
 tax_rev <- 0.76 * q_tax_agg
 
