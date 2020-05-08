@@ -69,13 +69,13 @@ gas_tot_df <- gas_agg_df %>%
 model_agg <- lm(price_dollars ~ quantity, data = gas_tot_df)
 
 
-q_3_agg <- ((3 - 15.0021) / -.0204) * 1000
+q_3_agg <- ((3 - 14.5998) / -.019339) * 1000
 
 q_3_high <- ((3 - 15.8034) / -0.0273) * 1000
 
 q_3_low <- ((3 - 11.6855) / -0.0661) * 1000
 
-cons_benefit_3 <- (15.0021 - 3) * q_3_agg * .5
+cons_benefit_3 <- (14.5998 - 3) * q_3_agg * .5
 
 prod_benefit_3 <-  3 * q_3_agg * .5
 
@@ -85,15 +85,15 @@ env_cost_world_3 <- 0.5 * q_3_agg
 
 ```
 
-Aggregate quantity of gallons sold at 3.00/gallon is `r format(round(q_3_agg, 0), scientific=FALSE)`
+Aggregate quantity of gallons sold at 3.00/gallon is `r format(round(q_3_agg, 2), scientific=FALSE)`
 
-Consumer benefit at 3.00/gallon is $`r format(round(cons_benefit_3, 0), scientific=FALSE)`
+Consumer benefit at 3.00/gallon is $`r format(round(cons_benefit_3, 2), scientific=FALSE)`
 
-Producer benefit at 3.00/gallon is $`r format(round(prod_benefit_3, 0), scientific=FALSE)`
+Producer benefit at 3.00/gallon is $`r format(round(prod_benefit_3, 2), scientific=FALSE)`
 
-The local environmental externality cost is $`r format(round(env_cost_local_3, 0), scientific=FALSE)`
+The local environmental externality cost is $`r format(round(env_cost_local_3, 2), scientific=FALSE)`
 
-The environmental externality cost to the rest of the world is $`r format(round(env_cost_world_3, 0), scientific=FALSE)`
+The environmental externality cost to the rest of the world is $`r format(round(env_cost_world_3, 2), scientific=FALSE)`
 
 #### 2. 
 
@@ -105,6 +105,50 @@ low_benefit_3 <- (11.6855 - 3) * q_3_low * 0.5
 
 ```
 
-Benefit of high income consumers is approximately $`r format(round(high_benefit_3, 0), scientific=FALSE)`
+Benefit of high income consumers is approximately $`r format(round(high_benefit_3, 2), scientific=FALSE)`
 
-Benefit of low income consumers is approximately $`r format(round(low_benefit_3, 0), scientific=FALSE)`
+Benefit of low income consumers is approximately $`r format(round(low_benefit_3, 2), scientific=FALSE)`
+
+#### 3.
+
+```{r}
+
+q_tax_agg <- ((14.5998 - 1) / (0.019339 + 0.005)) * 1000
+
+p_tax_agg <- 551.1811 * .005 + 1
+
+q_tax_high <- ((p_tax_agg - 15.8034) / -0.0273)
+
+q_tax_low <- ((p_tax_agg - 11.6855) / -0.0661)
+  
+high_benefit_tax <- (15.8034 - p_tax_agg) * q_tax_high * 0.5
+
+low_benefit_tax <- (11.6855 - p_tax_agg) * q_tax_low * 0.5
+
+prod_benefit_tax <- 3 * q_tax_agg * .5
+
+env_cost_local_tax <- 1.5 * q_tax_agg
+
+env_cost_world_tax <- 0.5 * q_tax_agg
+
+tax_rev <- 0.76 * q_tax_agg
+
+
+```
+
+a. Aggregate quantity of gallons sold at 3.00/gallon is `r format(round(q_tax_agg, 0), scientific=FALSE)`
+
+b. Price of gasoline is $`r format(round(p_tax_agg, 2), scientific=FALSE)`
+
+c. Benefit of high income consumers is approximately $`r format(round(high_benefit_tax, 2), scientific=FALSE)`
+
+d. Benefit of low income consumers is approximately $`r format(round(low_benefit_tax, 2), scientific=FALSE)`
+
+e. Producer benefit at 3.00/gallon is $`r format(round(prod_benefit_tax, 2), scientific=FALSE)`
+
+f. The local environmental externality cost is $`r format(round(env_cost_local_tax, 2), scientific=FALSE)`
+
+g. The environmental externality cost to the rest of the world is $`r format(round(env_cost_world_tax, 2), scientific=FALSE)`
+
+h. Tax revenue is $`r format(round(tax_rev, 2), scientific=FALSE)`
+
